@@ -90,4 +90,13 @@ public class UserService {
 
         return new UserResponseDTO(foundUser);
     }
+
+    @Transactional
+    public void deleteUser(UUID userId) {
+        User foundUser = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("사용자를 찾을 수 없습니다.")
+        );
+
+        foundUser.updateStatus(UserStatus.DEACTIVATED);
+    }
 }

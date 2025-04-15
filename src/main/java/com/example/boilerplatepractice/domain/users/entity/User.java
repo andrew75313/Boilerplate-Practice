@@ -47,4 +47,8 @@ public class User extends Timestamped {
     public void updatePhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public void updateStatus(UserStatus status) {
+        this.status = status;
+    }
 }
