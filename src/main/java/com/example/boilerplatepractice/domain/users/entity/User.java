@@ -3,6 +3,7 @@ package com.example.boilerplatepractice.domain.users.entity;
 import com.example.boilerplatepractice.global.entity.Timestamped;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends Timestamped {
@@ -30,9 +32,11 @@ public class User extends Timestamped {
 
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status;
 }
