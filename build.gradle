@@ -38,6 +38,9 @@ dependencies {
 
     // PostgreSQL JDBC Driver
     implementation 'org.postgresql:postgresql:42.7.2'
+
+    // HATEOAS
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 }
 
 tasks.named('test') {
