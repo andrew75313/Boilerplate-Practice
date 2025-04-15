@@ -2,6 +2,7 @@ package com.example.boilerplatepractice.domain.users.controller;
 
 import com.example.boilerplatepractice.domain.users.dto.SignupRequestDTO;
 import com.example.boilerplatepractice.domain.users.dto.UserResponseDTO;
+import com.example.boilerplatepractice.domain.users.dto.UserUpdateRequestDTO;
 import com.example.boilerplatepractice.domain.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,12 @@ public class UserController {
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         List<UserResponseDTO> responseDTOList = userService.getAllUsers();
         return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
+    }
+
+    @PutMapping("/{userId}/update")
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable UUID userId,
+                                                      @Valid @RequestBody UserUpdateRequestDTO requestDTO) {
+        UserResponseDTO responseDTO = userService.updateUser(userId, requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

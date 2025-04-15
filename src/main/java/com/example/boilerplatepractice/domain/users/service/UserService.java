@@ -2,11 +2,13 @@ package com.example.boilerplatepractice.domain.users.service;
 
 import com.example.boilerplatepractice.domain.users.dto.SignupRequestDTO;
 import com.example.boilerplatepractice.domain.users.dto.UserResponseDTO;
+import com.example.boilerplatepractice.domain.users.dto.UserUpdateRequestDTO;
 import com.example.boilerplatepractice.domain.users.entity.User;
 import com.example.boilerplatepractice.domain.users.entity.UserRole;
 import com.example.boilerplatepractice.domain.users.entity.UserStatus;
 import com.example.boilerplatepractice.domain.users.repository.UserRepository;
 import com.example.boilerplatepractice.global.exception.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -67,5 +69,25 @@ public class UserService {
         List<User> users = userRepository.findAll();
 
         return users.stream().map(UserResponseDTO::new).toList();
+    }
+
+    @Transactional
+    public UserResponseDTO updateUser(UUID userId, @Valid UserUpdateRequestDTO requestDTO) {
+        User foundUser = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("사용자를 찾을 수 없습니다.")
+        );
+
+        String newEmail = requestDTO.getNewEmail();
+        String newPhoneNumber = requestDTO.getNewPhoneNumber();
+
+        if (!newEmail.isEmpty()) {
+            foundUser.updateEmail(newEmail);
+        }
+
+        if (!newPhoneNumber.isEmpty()) {
+            foundUser.updatePhoneNumber(newPhoneNumber);
+        }
+
+        return new UserResponseDTO(foundUser);
     }
 }

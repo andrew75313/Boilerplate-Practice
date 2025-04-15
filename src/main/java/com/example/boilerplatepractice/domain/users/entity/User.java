@@ -39,4 +39,12 @@ public class User extends Timestamped {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status;
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
