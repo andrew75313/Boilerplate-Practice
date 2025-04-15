@@ -1,5 +1,6 @@
 package com.example.boilerplatepractice.domain.users.entity;
 
+import com.example.boilerplatepractice.global.entity.Timestamped;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends Timestamped {
 
     @Id
     @GeneratedValue
