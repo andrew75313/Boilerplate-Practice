@@ -31,17 +31,14 @@ public class UserService {
         String email = requestDTO.getEmail();
         String phoneNumber = requestDTO.getPhoneNumber();
 
-        // username 중복검증
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("아이디가 이미 존재합니다.");
         }
 
-        // emal 중복검증
         if (userRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("이메일이 이미 존재합니다.");
         }
 
-        // user 객체 생성
         User user = User.builder()
                 .username(username)
                 .password(password)
@@ -51,14 +48,13 @@ public class UserService {
                 .status(UserStatus.ACTIVATED)
                 .build();
 
-        // save
         userRepository.save(user);
 
         return new UserResponseDTO(user);
     }
 
     public UserResponseDTO getUser(UUID userId) {
-        User foundUser = userRepository.findById(userId).orElseThrow(
+        User foundUser = userRepository.findActivatedById(userId).orElseThrow(
                 () -> new UserNotFoundException("사용자를 찾을 수 없습니다.")
         );
 
@@ -66,14 +62,14 @@ public class UserService {
     }
 
     public List<UserResponseDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAllActivated();
 
         return users.stream().map(UserResponseDTO::new).toList();
     }
 
     @Transactional
     public UserResponseDTO updateUser(UUID userId, @Valid UserUpdateRequestDTO requestDTO) {
-        User foundUser = userRepository.findById(userId).orElseThrow(
+        User foundUser = userRepository.findActivatedById(userId).orElseThrow(
                 () -> new UserNotFoundException("사용자를 찾을 수 없습니다.")
         );
 
@@ -93,7 +89,7 @@ public class UserService {
 
     @Transactional
     public void deleteUser(UUID userId) {
-        User foundUser = userRepository.findById(userId).orElseThrow(
+        User foundUser = userRepository.findActivatedById(userId).orElseThrow(
                 () -> new UserNotFoundException("사용자를 찾을 수 없습니다.")
         );
 

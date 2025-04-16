@@ -10,15 +10,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
-    Optional<User> findByUsername(String username);
-
-    Optional<User> findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE u.id = :userId AND u.status = 'ACTIVATED'")
-    Optional<User> findById(UUID userId);
+    Optional<User> findActivatedById(UUID userId);
 
     @Query("SELECT u FROM User u WHERE u.status = 'ACTIVATED'")
-    List<User> findAll();
+    List<User> findAllActivated();
+
+    Optional<Object> findByUsername(String username);
+
+    Optional<Object> findByEmail(String email);
 }
 
