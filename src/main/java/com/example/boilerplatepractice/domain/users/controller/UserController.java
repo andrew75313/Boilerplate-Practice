@@ -34,6 +34,11 @@ public class UserController {
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
+    /**
+     * HATEOAS 적용
+     * @param userId
+     * @return Activated 사용자 반환
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<EntityModel<UserResponseDTO>> getUser(@PathVariable UUID userId) {
         UserResponseDTO responseDTO = userService.getUser(userId);
@@ -43,6 +48,10 @@ public class UserController {
         return new ResponseEntity<>(userModel ,HttpStatus.OK);
     }
 
+    /**
+     * HATEOAS 적용
+     * @return Activated 사용자 반환
+     */
     @GetMapping("")
     public ResponseEntity<CollectionModel<EntityModel<UserResponseDTO>>> getAllUsers() {
         List<UserResponseDTO> responseDTOList = userService.getAllUsers();
@@ -57,6 +66,27 @@ public class UserController {
 
         return new ResponseEntity<>(collectionModel, HttpStatus.OK);
     }
+
+    /**
+     * HATEOAS 미적용
+     * @param userId
+     * @return Activated 사용자 반환
+     */
+//    @GetMapping("/{userId}")
+//    public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID userId) {
+//        UserResponseDTO responseDTO = userService.getUser(userId);
+//        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+//    }
+
+    /**
+     * HATEOAS 미적용
+     * @return Activated 사용자 반환
+     */
+//    @GetMapping("")
+//    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+//        List<UserResponseDTO> responseDTOList = userService.getAllUsers();
+//        return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
+//    }
 
     @PutMapping("/{userId}/update")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable UUID userId,
