@@ -1,11 +1,15 @@
 package com.example.boilerplatepractice.domain.users.controller;
 
+import com.example.boilerplatepractice.domain.users.assembler.UserModelAssembler;
 import com.example.boilerplatepractice.domain.users.dto.SignupRequestDTO;
 import com.example.boilerplatepractice.domain.users.dto.UserResponseDTO;
 import com.example.boilerplatepractice.domain.users.dto.UserUpdateRequestDTO;
 import com.example.boilerplatepractice.domain.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +17,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
+    private final UserModelAssembler userModelAssembler;
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody SignupRequestDTO requestDTO) {
@@ -27,15 +35,27 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID userId) {
+    public ResponseEntity<EntityModel<UserResponseDTO>> getUser(@PathVariable UUID userId) {
         UserResponseDTO responseDTO = userService.getUser(userId);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+
+        EntityModel<UserResponseDTO> userModel = userModelAssembler.toModel(responseDTO);
+
+        return new ResponseEntity<>(userModel ,HttpStatus.OK);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+    public ResponseEntity<CollectionModel<EntityModel<UserResponseDTO>>> getAllUsers() {
         List<UserResponseDTO> responseDTOList = userService.getAllUsers();
-        return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
+
+        List<EntityModel<UserResponseDTO>> userModels = responseDTOList.stream()
+                .map(userModelAssembler::toModel)
+                .toList();
+
+        CollectionModel<EntityModel<UserResponseDTO>> collectionModel =
+                CollectionModel.of(userModels,
+                        linkTo(methodOn(UserController.class).getAllUsers()).withSelfRel());
+
+        return new ResponseEntity<>(collectionModel, HttpStatus.OK);
     }
 
     @PutMapping("/{userId}/update")
