@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -33,7 +35,7 @@ public class AuthService {
             throw new IllegalArgumentException("Refresh token not found in Redis or does not match.");
         }
 
-        User user = userRepository.findById(userId).orElseThrow(
+        User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(
                 () -> new UsernameNotFoundException("No user found.")
         );
 
@@ -48,7 +50,7 @@ public class AuthService {
         }
 
         String userId = jwtUtil.getUserIdFromToken(refreshToken);
-        User user = userRepository.findById(userId).orElseThrow(
+        User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(
                 () -> new UsernameNotFoundException("No user found.")
         );
 

@@ -21,14 +21,16 @@ public class User extends Timestamped {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private String email;
+
+    private String oauthProvider;
+
+    private String oauthId;
 
     private String phoneNumber;
 
