@@ -14,4 +14,8 @@ public enum UserRole {
     public String toString(){
         return authority;
     }
+
+    public String getAuthority() {
+        return authority;
+    }
 }
