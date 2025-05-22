@@ -21,5 +21,6 @@ public class OAuthProperties {
         private String clientId;
         private String redirectUri;
         private String tokenUri;
+        private String userinfoUri;
     }
 }

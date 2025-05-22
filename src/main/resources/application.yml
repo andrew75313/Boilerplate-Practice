@@ -28,7 +28,7 @@ jwt:
 
 oauth:
   kakao:
-
     client-id: ${KAKAO_CLIENT_ID}
     redirect-uri: ${KAKAO_REDIRECT_URI}
     token-uri: ${TOKEN_URI}
+    userinfo-url: ${KAKAO_USERINFO_URI}
