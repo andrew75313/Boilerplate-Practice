@@ -1,7 +1,7 @@
 package com.example.boilerplatepractice.domain.oauth.service;
 
-import com.example.boilerplatepractice.domain.oauth.dto.OAuthUserInfoDTO;
 import com.example.boilerplatepractice.domain.oauth.dto.LoginResponse;
+import com.example.boilerplatepractice.domain.oauth.dto.OAuthUserInfoDTO;
 import com.example.boilerplatepractice.domain.users.entity.User;
 import com.example.boilerplatepractice.domain.users.entity.UserRole;
 import com.example.boilerplatepractice.domain.users.entity.UserStatus;
@@ -99,8 +99,9 @@ public class OAuthService {
         JsonNode jsonNode = new ObjectMapper().readTree(response.getBody());
 
         Long id = jsonNode.get("id").asLong();
-        String email = jsonNode.get("kakao_account")
-                .get("email").asText();
+//        String email = jsonNode.get("kakao_account")
+//                .get("email").asText();
+        String email = null;
 
         return new OAuthUserInfoDTO(id, email);
     }

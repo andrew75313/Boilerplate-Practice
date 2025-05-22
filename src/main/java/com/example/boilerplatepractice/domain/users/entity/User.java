@@ -25,7 +25,6 @@ public class User extends Timestamped {
 
     private String password;
 
-    @Column(nullable = false)
     private String email;
 
     private String oauthProvider;
