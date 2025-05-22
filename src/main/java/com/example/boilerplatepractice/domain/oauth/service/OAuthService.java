@@ -42,7 +42,7 @@ public class OAuthService {
         OAuthUserInfoDTO kakaoUserInfo = getKakaoUserInfo(kakaoAccessToken);
 
         User kakaoUser = userRepository.findByOauthId(kakaoUserInfo.getId().toString()).orElseGet(
-                ()-> registerOAuthUser(kakaoUserInfo)
+                ()-> registerOAuthUser("kakao", kakaoUserInfo)
         );
 
         String accessToken = jwtUtil.createAccessToken(kakaoUser);
@@ -58,11 +58,12 @@ public class OAuthService {
     }
 
 
-    private User registerOAuthUser(OAuthUserInfoDTO infoDto) {
+    private User registerOAuthUser(String provider, OAuthUserInfoDTO infoDto) {
         String oauthId = infoDto.getId().toString();
         String email = infoDto.getEmail();
 
         User user = User.builder()
+                .oauthProvider(provider)
                 .oauthId(oauthId)
                 .email(email)
                 .role(UserRole.USER)
@@ -76,8 +77,7 @@ public class OAuthService {
 
     private OAuthUserInfoDTO getKakaoUserInfo(String accessToken) throws JsonProcessingException {
         URI uri = UriComponentsBuilder
-                .fromUriString("https://kapi.kakao.com")
-                .path("/v2/user/me")
+                .fromUriString(oauthProperties.getProviders().get("kakao").getUserinfoUri())
                 .encode()
                 .build()
                 .toUri();

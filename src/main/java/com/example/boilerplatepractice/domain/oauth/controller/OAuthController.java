@@ -3,7 +3,6 @@ package com.example.boilerplatepractice.domain.oauth.controller;
 import com.example.boilerplatepractice.domain.oauth.dto.LoginResponse;
 import com.example.boilerplatepractice.domain.oauth.service.OAuthService;
 import com.example.boilerplatepractice.domain.users.dto.UserResponseDTO;
-import com.example.boilerplatepractice.global.dto.DataResponseDTO;
 import com.example.boilerplatepractice.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
