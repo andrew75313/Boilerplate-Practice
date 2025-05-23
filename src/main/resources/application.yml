@@ -26,8 +26,10 @@ jwt:
   access-token-time: ${JWT_ACCESS_TOKEN_TIME}
   refresh-token-time: ${JWT_REFRESH_TOKEN_TIME}
 
-  oauth:
+oauth:
+  providers:
     kakao:
-      client-id: ${KAKAO_CLIENT_ID}
-      redirect-uri: ${KAKAO_REDIRECT_URI}
-      token-uri: ${TOKEN_URI}
+      clientId: ${KAKAO_CLIENT_ID}
+      redirectUri: ${KAKAO_REDIRECT_URI}
+      tokenUri: ${TOKEN_URI}
+      userinfoUri: ${KAKAO_USERINFO_URI}

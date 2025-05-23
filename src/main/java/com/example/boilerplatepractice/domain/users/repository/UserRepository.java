@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u FROM User u WHERE u.id = :userId AND u.status = 'ACTIVATED'")
     Optional<User> findActivatedById(UUID userId);
 
+    @Query("SELECT u FROM User u WHERE u.username = :username AND u.status = 'ACTIVATED'")
+    Optional<User> findActivatedByUsername(String username);
+
     @Query("SELECT u FROM User u WHERE u.status = 'ACTIVATED'")
     List<User> findAllActivated();
 
@@ -22,8 +25,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<Object> findByEmail(String email);
 
-    Optional<User> findByUsernameAndIsActiveTrue(String username);
-
-    Optional<User> findByIdAndIsActiveTrue(String userId);
+    Optional<User> findByOauthId(String oauthId);
 }
 

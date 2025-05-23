@@ -11,6 +11,8 @@ public class UserResponseDTO {
     private String username;
     private String email;
     private String phoneNumber;
+    private String oauthProvider;
+    private String oauthId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -19,6 +21,8 @@ public class UserResponseDTO {
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();
+        this.oauthProvider = user.getOauthProvider();
+        this.oauthId = user.getOauthId();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
     }
