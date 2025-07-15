@@ -17,6 +17,13 @@ spring:
       password:
       timeout: 2000
 
+  mybatis:
+    mapper-locations: classpath:mapper/**/*.xml
+    type-aliases-package: com.example.domain
+    configuration:
+      map-underscore-to-camel-case: true
+
+
 app:
   admin:
     code: ${ADMIN_CODE}
