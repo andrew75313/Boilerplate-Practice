@@ -6,7 +6,9 @@ import com.example.boilerplatepractice.domain.users.dto.UserUpdateRequestDTO;
 import com.example.boilerplatepractice.domain.users.entity.User;
 import com.example.boilerplatepractice.domain.users.entity.UserRole;
 import com.example.boilerplatepractice.domain.users.entity.UserStatus;
+import com.example.boilerplatepractice.domain.users.mapper.UserMapper;
 import com.example.boilerplatepractice.domain.users.repository.UserRepository;
+import com.example.boilerplatepractice.global.dto.DataResponseDTO;
 import com.example.boilerplatepractice.global.exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -22,8 +24,8 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public UserResponseDTO createUser(@Valid SignupRequestDTO requestDTO) {
         String username = requestDTO.getUsername();
@@ -94,5 +96,10 @@ public class UserService {
         );
 
         foundUser.updateStatus(UserStatus.DEACTIVATED);
+    }
+
+    public DataResponseDTO<List<UUID>> getInvalidUserIds() {
+        List<UUID> invalidIds = userMapper.selectInvalidUserIds();
+        return new DataResponseDTO<List<UUID>>(invalidIds);
     }
 }

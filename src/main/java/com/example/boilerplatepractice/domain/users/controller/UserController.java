@@ -5,6 +5,7 @@ import com.example.boilerplatepractice.domain.users.dto.SignupRequestDTO;
 import com.example.boilerplatepractice.domain.users.dto.UserResponseDTO;
 import com.example.boilerplatepractice.domain.users.dto.UserUpdateRequestDTO;
 import com.example.boilerplatepractice.domain.users.service.UserService;
+import com.example.boilerplatepractice.global.dto.DataResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -99,5 +100,11 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/invalid")
+    public ResponseEntity<DataResponseDTO<?>> getInvalidUsers() {
+        DataResponseDTO<List<UUID>> response = userService.getInvalidUserIds();
+        return new ResponseEntity<>(response ,HttpStatus.OK);
     }
 }

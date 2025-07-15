@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.boilerplatepractice.domain.users.mapper.UserMapper">
+
+    <select id="selectInvalidUserIds" resultType="java.util.UUID">
+        WITH invalid_user AS (
+            SELECT id
+            FROM users
+            WHERE status = 'DEACTIVATED'
+                AND role = 'USER'
+            )
+
+        SELECT
+            id
+        FROM invalid_user
+    </select>
+
+</mapper>
